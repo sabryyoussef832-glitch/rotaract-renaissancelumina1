@@ -633,7 +633,7 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About Us</a></li>
             <li><a href="#gallery">Gallery</a></li>
-            <li><a href="projects & Events.html" target="_blank">projects & Events</a></li>
+            <li><a href="projects_events.html" target="_blank">projects & Events</a></li>
             <li><a href="contact.html">Contact Us</a></li>
             <li><a href="faq.html">FAQ</a></li>
             <li><a href="news.html">News</a></li>
@@ -808,6 +808,41 @@
     </div>
 
     <script>
+        // Backend Configuration for Port 8000
+        const BACKEND_CONFIG = {
+            baseURL: 'http://localhost:8000',
+            apiVersion: '/api/v1',
+            timeout: 5000
+        };
+
+        // API Call Helper
+        async function callBackend(endpoint, options = {}) {
+            const url = `${BACKEND_CONFIG.baseURL}${BACKEND_CONFIG.apiVersion}${endpoint}`;
+            const defaultOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include'
+            };
+
+            try {
+                const response = await fetch(url, { ...defaultOptions, ...options });
+                if (!response.ok) {
+                    console.warn(`Backend responded with status ${response.status}`);
+                    console.info(`Make sure backend is running on port 8000`);
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error(`Backend Error: ${error.message}`);
+                console.info(`Backend URL: ${url}`);
+                throw error;
+            }
+        }
+
+        // Lightbox functionality
         document.addEventListener("DOMContentLoaded", function () {
             const lightbox = document.getElementById("imageLightbox");
             const lightboxImg = document.getElementById("lightboxImg");
