@@ -1,5 +1,5 @@
 (function () {
-    const API_BASE = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
+    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:8000' : '';
 
     function getStoredUser() {
         try {
@@ -41,6 +41,7 @@
                 return data.user;
             }
         } catch (error) {
+            console.warn('Could not fetch current user from server:', error);
             return null;
         }
         return null;
@@ -74,6 +75,7 @@
                 });
             }
         } catch (error) {
+            console.error('Logout error:', error);
         }
         localStorage.removeItem('luminaUser');
         window.location.href = 'index.html';
@@ -99,7 +101,6 @@
         settingsLink.style.color = 'var(--primary-pink)';
         settingsItem.appendChild(settingsLink);
         
-        // Insert before the loginLink (Hello User)
         navList.insertBefore(settingsItem, loginLink.parentElement);
     }
 
@@ -108,28 +109,22 @@
         const registerLink = document.querySelector('a.register-btn');
         if (!loginLink || !registerLink) return;
 
-        // 1. Get cached user for immediate display
         let user = getStoredUser();
         
-        // 2. If we have a cached user, show it immediately to avoid delay
         if (user && user.name) {
             updateNavbarWithUser(user, loginLink, registerLink);
         }
 
-        // 3. Fetch from server in background to sync/verify
         const serverUser = await fetchCurrentUser();
         
-        // Handle sync between server and cache
         if (serverUser) {
-            // If server data is different or we didn't have a user, update UI again
             if (!user || user.name !== serverUser.name || user.role !== serverUser.role) {
                 updateNavbarWithUser(serverUser, loginLink, registerLink);
             }
         } else {
-            // If server says no user, but we had one in cache, clear it (session expired)
             if (user && window.location.protocol !== 'file:') {
                 localStorage.removeItem('luminaUser');
-                window.location.reload(); // Reload to show login/register buttons
+                window.location.reload();
             }
         }
     }
@@ -137,24 +132,20 @@
     function updateNavbarWithUser(user, loginLink, registerLink) {
         if (!user || !user.name) return;
 
-        // Ensure Admin/Settings links exist
         ensureAdminLink(user, loginLink);
         ensureSettingsLink(user, loginLink);
 
-        // Update Login button to show name
         loginLink.textContent = `Hello, ${shortenName(user.name)}`;
         loginLink.href = '#';
         loginLink.style.cursor = 'default';
         loginLink.onclick = (e) => e.preventDefault();
 
-        // Update Register button to Logout
         registerLink.textContent = 'LOGOUT';
         registerLink.href = '#';
         registerLink.classList.remove('register-btn');
         registerLink.classList.add('login-btn');
         registerLink.style.background = '#2d3436';
         
-        // Re-add logout listener (remove old one first to avoid duplicates)
         const newRegisterLink = registerLink.cloneNode(true);
         registerLink.parentNode.replaceChild(newRegisterLink, registerLink);
         

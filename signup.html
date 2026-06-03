@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Rotaract Renaissance Lumina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .signup-container h1 {
+            color: #D91E5B;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .signup-container p {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3436;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #D91E5B;
+            box-shadow: 0 0 0 3px rgba(217, 30, 91, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .file-upload {
+            position: relative;
+        }
+
+        .file-label {
+            display: block;
+            padding: 12px;
+            background: #f5f5f5;
+            border: 2px dashed #D91E5B;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .file-label:hover {
+            background: #fff0f5;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-name {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 12px;
+            background: #D91E5B;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .signup-btn:hover {
+            background: #b91650;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(217, 30, 91, 0.3);
+        }
+
+        .signup-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #D91E5B;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #28a745;
+        }
+
+        .signin-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .signin-link a {
+            color: #D91E5B;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .signin-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .signup-container {
+                padding: 30px;
+            }
+
+            .signup-container h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>🚀 Join Us</h1>
+        <p>Create your Renaissance Lumina account</p>
+
+        <div class="error-message" id="errorMsg"></div>
+        <div class="success-message" id="successMsg"></div>
+
+        <form id="signupForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="your@email.com">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+20 1234567890">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••" minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="••••••••">
+            </div>
+
+            <div class="form-group">
+                <label for="photo">Personal Photo *</label>
+                <div class="file-upload">
+                    <label for="photo" class="file-label">
+                        <i class="fas fa-upload"></i> Click to upload photo
+                    </label>
+                    <input type="file" id="photo" name="photo" accept="image/*" required>
+                    <div class="file-name" id="photoName"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cv">CV/Resume (Optional)</label>
+                <div class="file-upload">
+                    <label for="cv" class="file-label">
+                        <i class="fas fa-file-pdf"></i> Click to upload CV
+                    </label>
+                    <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx">
+                    <div class="file-name" id="cvName"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="signup-btn" id="signupBtn">Create Account</button>
+        </form>
+
+        <div class="signin-link">
+            Already have an account? <a href="signin.html">Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:8000' : '';
+
+        document.getElementById('photo').addEventListener('change', function(e) {
+            document.getElementById('photoName').textContent = e.target.files[0]?.name || '';
+        });
+
+        document.getElementById('cv').addEventListener('change', function(e) {
+            document.getElementById('cvName').textContent = e.target.files[0]?.name || '';
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const photo = document.getElementById('photo').files[0];
+            const cv = document.getElementById('cv').files[0];
+
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            const signupBtn = document.getElementById('signupBtn');
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            if (password !== confirmPassword) {
+                errorMsg.textContent = 'Passwords do not match!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (!photo) {
+                errorMsg.textContent = 'Personal photo is required!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            signupBtn.disabled = true;
+            signupBtn.textContent = 'Creating Account...';
+
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('password', password);
+                formData.append('photo', photo);
+                if (cv) formData.append('cv', cv);
+
+                const response = await fetch(`${API_BASE}/api/signup`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    successMsg.textContent = 'Account created successfully! Redirecting to sign in...';
+                    successMsg.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'signin.html';
+                    }, 2000);
+                } else {
+                    errorMsg.textContent = data.error || 'Sign up failed. Please try again.';
+                    errorMsg.style.display = 'block';
+                    signupBtn.disabled = false;
+                    signupBtn.textContent = 'Create Account';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMsg.textContent = 'Connection error. Make sure the backend is running on port 8000.';
+                errorMsg.style.display = 'block';
+                signupBtn.disabled = false;
+                signupBtn.textContent = 'Create Account';
+            }
+        });
+    </script>
+</body>
+</html>
