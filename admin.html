@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Rotaract Lumina</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-pink: #D91E5B;
+            --soft-pink: #FFF0F5;
+            --text-dark: #2d3436;
+            --bg-white: #ffffff;
+            --nav-height: 90px;
+            --transition: all 0.3s ease;
+            --card-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            background: linear-gradient(180deg, #fff7fa 0%, #ffffff 35%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-top: var(--nav-height);
+        }
+
+        nav {
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8% 0 0.5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 5000;
+            height: var(--nav-height);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--soft-pink);
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area img {
+            width: 280px;
+            height: 90px;
+            border-radius: 18px;
+            object-fit: cover;
+            border: 2px solid var(--soft-pink);
+            transition: var(--transition);
+        }
+        .logo-area img:hover { transform: scale(1.03); }
+
+        nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        nav ul li a:hover,
+        nav ul li a.active { color: var(--primary-pink); }
+
+        .login-btn,
+        .register-btn,
+        .refresh-btn {
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .login-btn,
+        .refresh-btn {
+            background: var(--primary-pink);
+            color: white !important;
+        }
+
+        .register-btn {
+            background: transparent;
+            color: var(--primary-pink) !important;
+            border: 2px solid var(--primary-pink);
+        }
+
+        .hero {
+            padding: 70px 8% 35px;
+        }
+
+        .hero-shell {
+            background: linear-gradient(135deg, rgba(217, 30, 91, 0.95), rgba(123, 16, 56, 0.94));
+            color: white;
+            border-radius: 36px;
+            padding: 42px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 14px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.1;
+            margin-bottom: 14px;
+        }
+
+        .hero p {
+            max-width: 760px;
+            opacity: 0.95;
+            margin-bottom: 24px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .hero-note {
+            margin-top: 18px;
+            font-size: 0.88rem;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            padding: 0 8% 70px;
+        }
+
+        .status-banner {
+            margin-bottom: 24px;
+            padding: 16px 18px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid #f6d0dd;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .stats-grid,
+        .records-grid {
+            display: grid;
+            gap: 22px;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            margin-bottom: 34px;
+        }
+
+        .stat-card,
+        .record-card {
+            background: white;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid #f7e5ec;
+        }
+
+        .stat-card h3 {
+            color: #8f8f8f;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .value {
+            color: var(--primary-pink);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .section {
+            margin-bottom: 34px;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .section-head h2 {
+            font-size: 1.7rem;
+            color: var(--primary-pink);
+        }
+
+        .section-head span {
+            color: #666;
+            font-size: 0.92rem;
+        }
+
+        .records-grid {
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        }
+
+        .record-card h3 {
+            color: var(--primary-pink);
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+
+        .record-card p {
+            margin-bottom: 10px;
+            color: #5f6467;
+            font-size: 0.94rem;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #5f6467;
+            font-size: 0.9rem;
+        }
+
+        .label {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .muted {
+            color: #8d8d8d;
+        }
+
+        .empty-state {
+            background: white;
+            border: 1px dashed #f1bfd0;
+            border-radius: 24px;
+            padding: 32px;
+            color: #6b7174;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: var(--soft-pink);
+            color: var(--primary-pink);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .file-meta {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f4e7ec;
+        }
+
+        .file-chip {
+            display: inline-flex;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #fff4f8;
+            color: #8a1c46;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin: 6px 6px 0 0;
+        }
+
+        .tiny {
+            display: block;
+            margin-top: 8px;
+            color: #8d8d8d;
+            font-size: 0.78rem;
+            word-break: break-word;
+        }
+
+        .loading {
+            color: #8d8d8d;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 992px) {
+            nav ul { display: none; }
+            .hero,
+            .dashboard { padding-left: 6%; padding-right: 6%; }
+        }
+
+        @media (max-width: 640px) {
+            .hero-shell { padding: 30px 24px; }
+            .section-head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .hero-actions { width: 100%; }
+            .refresh-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo-area">
+        <img src="logo.png" alt="Rotaract Logo">
+    </a>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects & Events.html">projects & Events</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+        <li><a href="signin.html" class="login-btn">LOGIN</a></li>
+        <li><a href="signup.html" class="register-btn">REGISTER</a></li>
+    </ul>
+</nav>
+
+<header class="hero">
+    <div class="hero-shell">
+        <span class="eyebrow">Local Admin View</span>
+        <h1>Firebase Dashboard For Members, Projects, And Events</h1>
+        <p>Track website registrations in one place. This dashboard is designed for local development and internal review, not public production access.</p>
+        <div class="hero-actions">
+            <button id="refreshBtn" class="refresh-btn" type="button"><i class="fas fa-rotate-right"></i>Refresh Data</button>
+        </div>
+        <p class="hero-note" id="bucketNote">Checking Firebase collections and storage bucket configuration...</p>
+    </div>
+</header>
+
+<main class="dashboard">
+    <div class="status-banner" id="statusBanner">
+        <span class="loading">Loading dashboard data...</span>
+    </div>
+
+    <section class="stats-grid" id="statsGrid"></section>
+
+    <section class="section">
+        <div class="section-head">
+            <h2>Members</h2>
+            <span id="usersMeta">Waiting for data...</span>
+        </div>
+        <div class="records-grid" id="usersGrid"></div>
+    </section>
+
+    <section class="section">
+        <div class="section-head">
+            <h2>Project Support</h2>
+            <span id="projectsMeta">Waiting for data...</span>
+        </div>
+        <div class="records-grid" id="projectSupportGrid"></div>
+    </section>
+
+    <section class="section">
+        <div class="section-head">
+            <h2>Event Registrations</h2>
+            <span id="eventsMeta">Waiting for data...</span>
+        </div>
+        <div class="records-grid" id="eventRegistrationsGrid"></div>
+    </section>
+</main>
+
+<script>
+    const API_BASE = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
+
+    const elements = {
+        statusBanner: document.getElementById('statusBanner'),
+        statsGrid: document.getElementById('statsGrid'),
+        usersGrid: document.getElementById('usersGrid'),
+        projectSupportGrid: document.getElementById('projectSupportGrid'),
+        eventRegistrationsGrid: document.getElementById('eventRegistrationsGrid'),
+        usersMeta: document.getElementById('usersMeta'),
+        projectsMeta: document.getElementById('projectsMeta'),
+        eventsMeta: document.getElementById('eventsMeta'),
+        bucketNote: document.getElementById('bucketNote'),
+        refreshBtn: document.getElementById('refreshBtn')
+    };
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function formatDate(value) {
+        if (!value) {
+            return '—';
+        }
+
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) {
+            return escapeHtml(value);
+        }
+
+        return date.toLocaleString('en-GB', {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+        });
+    }
+
+    function renderEmptyState(message) {
+        return `<div class="empty-state">${escapeHtml(message)}</div>`;
+    }
+
+    function renderFileMeta(file, label) {
+        if (!file || !file.fileName) {
+            return `<p class="muted">${escapeHtml(label)}: Not uploaded</p>`;
+        }
+
+        return `
+            <div class="file-meta">
+                <span class="label">${escapeHtml(label)}</span>
+                <span class="file-chip">${escapeHtml(file.fileName)}</span>
+                <span class="tiny">${escapeHtml(file.path || '')}</span>
+            </div>
+        `;
+    }
+
+    function renderStats(summary) {
+        const stats = [
+            { label: 'Members', value: summary.users, icon: 'fa-users' },
+            { label: 'Project Support', value: summary.projectSupport, icon: 'fa-hand-holding-heart' },
+            { label: 'Event Registrations', value: summary.eventRegistrations, icon: 'fa-ticket' }
+        ];
+
+        elements.statsGrid.innerHTML = stats.map((stat) => `
+            <article class="stat-card">
+                <div class="badge"><i class="fas ${stat.icon}"></i>${escapeHtml(stat.label)}</div>
+                <h3>${escapeHtml(stat.label)}</h3>
+                <div class="value">${escapeHtml(stat.value)}</div>
+            </article>
+        `).join('');
+    }
+
+    function renderUsers(users) {
+        elements.usersMeta.textContent = `${users.length} member record(s)`;
+        if (!users.length) {
+            elements.usersGrid.innerHTML = renderEmptyState('No user records were found in Firestore yet.');
+            return;
+        }
+
+        elements.usersGrid.innerHTML = users.map((user) => `
+            <article class="record-card">
+                <div class="badge"><i class="fas fa-user"></i>${escapeHtml(user.role || 'member')}</div>
+                <h3>${escapeHtml(user.name || 'Unnamed Member')}</h3>
+                <p><span class="label">Email:</span> ${escapeHtml(user.email || '—')}</p>
+                <p><span class="label">Joined:</span> ${formatDate(user.createdAt)}</p>
+                ${renderFileMeta(user.photoFile, 'Photo')}
+                ${renderFileMeta(user.cvFile, 'CV')}
+            </article>
+        `).join('');
+    }
+
+    function renderProjectSupport(records) {
+        elements.projectsMeta.textContent = `${records.length} support request(s)`;
+        if (!records.length) {
+            elements.projectSupportGrid.innerHTML = renderEmptyState('No project support requests have been submitted yet.');
+            return;
+        }
+
+        elements.projectSupportGrid.innerHTML = records.map((record) => `
+            <article class="record-card">
+                <div class="badge"><i class="fas fa-seedling"></i>${escapeHtml(record.category || 'General')}</div>
+                <h3>${escapeHtml(record.title || 'Project Support')}</h3>
+                <p><span class="label">Supporter:</span> ${escapeHtml(record.supporterName || '—')}</p>
+                <p><span class="label">Contact:</span> ${escapeHtml(record.contact || '—')}</p>
+                <p><span class="label">Help Type:</span> ${escapeHtml(record.helpType || '—')}</p>
+                <p><span class="label">Submitted:</span> ${formatDate(record.submittedAt)}</p>
+            </article>
+        `).join('');
+    }
+
+    function renderEventRegistrations(records) {
+        elements.eventsMeta.textContent = `${records.length} registration(s)`;
+        if (!records.length) {
+            elements.eventRegistrationsGrid.innerHTML = renderEmptyState('No event registrations have been submitted yet.');
+            return;
+        }
+
+        elements.eventRegistrationsGrid.innerHTML = records.map((record) => `
+            <article class="record-card">
+                <div class="badge"><i class="fas fa-ticket"></i>${escapeHtml(record.status || 'Confirmed')}</div>
+                <h3>${escapeHtml(record.eventTitle || 'Event Registration')}</h3>
+                <p><span class="label">Attendee:</span> ${escapeHtml(record.attendeeName || '—')}</p>
+                <p><span class="label">Ticket ID:</span> ${escapeHtml(record.ticketID || '—')}</p>
+                <p><span class="label">Contact:</span> ${escapeHtml(record.email || record.phone || '—')}</p>
+                <p><span class="label">Event Date:</span> ${escapeHtml(record.eventDate || '—')}</p>
+                <p><span class="label">Registered:</span> ${formatDate(record.registeredAt)}</p>
+            </article>
+        `).join('');
+    }
+
+    async function loadDashboard() {
+        elements.statusBanner.innerHTML = '<span class="loading">Loading dashboard data...</span>';
+        elements.refreshBtn.disabled = true;
+        elements.refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Refreshing';
+
+        try {
+            const response = await fetch(`${API_BASE}/api/admin-dashboard`);
+            const data = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Unable to load admin dashboard data.');
+            }
+
+            renderStats(data.summary);
+            renderUsers(data.users || []);
+            renderProjectSupport(data.projectSupport || []);
+            renderEventRegistrations(data.eventRegistrations || []);
+
+            const buckets = (data.summary.storageBuckets || []).join(' , ');
+            elements.bucketNote.textContent = buckets
+                ? `Storage bucket candidates: ${buckets}`
+                : 'No storage bucket candidates are configured yet.';
+            elements.statusBanner.innerHTML = `<strong>Connected:</strong> Dashboard data loaded successfully from Firebase.`;
+        } catch (error) {
+            elements.statusBanner.innerHTML = `<strong>Error:</strong> ${escapeHtml(error.message)} Start the local server with app.py and verify Firebase access.`;
+            elements.statsGrid.innerHTML = '';
+            elements.usersGrid.innerHTML = renderEmptyState('Users data is unavailable right now.');
+            elements.projectSupportGrid.innerHTML = renderEmptyState('Project support data is unavailable right now.');
+            elements.eventRegistrationsGrid.innerHTML = renderEmptyState('Event registration data is unavailable right now.');
+        } finally {
+            elements.refreshBtn.disabled = false;
+            elements.refreshBtn.innerHTML = '<i class="fas fa-rotate-right"></i>Refresh Data';
+        }
+    }
+
+    elements.refreshBtn.addEventListener('click', loadDashboard);
+    document.addEventListener('DOMContentLoaded', loadDashboard);
+</script>
+<script src="auth-ui.js"></script>
+</body>
+</html>

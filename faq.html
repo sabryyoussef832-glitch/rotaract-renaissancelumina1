@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Rotaract Lumina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-pink: #D91E5B;
+            --soft-pink: #FFF0F5;
+            --text-dark: #2d3436;
+            --bg-white: #ffffff;
+            --nav-height: 90px;
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #fdfdfd; color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; line-height: 1.6; padding-top: var(--nav-height); }
+        /* --- Navigation Bar --- */
+        nav {
+            background-color: var(--bg-white);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 8% 0 0.5%; position: fixed; width: 100%; top: 0; z-index: 5000;
+            height: var(--nav-height); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--soft-pink);
+        }
+
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-area img { 
+            width: 280px; height: 90px; border-radius: 18px;
+            object-fit: cover; border: 2px solid var(--soft-pink); transition: var(--transition);
+        }
+        .logo-area img:hover { transform: scale(1.1) rotate(5deg); }
+
+        .club-name { display: flex; flex-direction: column; line-height: 1.2; }
+        .club-name span:first-child { font-weight: 800; font-size: 1.1rem; color: var(--primary-pink); text-transform: uppercase; }
+        .club-name span:last-child { font-weight: 600; font-size: 0.8rem; color: var(--text-dark); opacity: 0.7; }
+
+        nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
+        nav ul li a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 14px; transition: 0.3s; }
+        nav ul li a:hover { color: var(--primary-pink); }
+
+        /* --- Auth Buttons --- */
+        .login-btn, .register-btn {
+            padding: 8px 22px; border-radius: 50px; font-weight: 700;
+            cursor: pointer; font-size: 11px; transition: var(--transition);
+            text-transform: uppercase; text-decoration: none; display: inline-block;
+        }
+        .login-btn {
+            background: var(--primary-pink); color: white !important; border: none;
+        }
+        .register-btn {
+            background: transparent; color: var(--primary-pink) !important; border: 2px solid var(--primary-pink);
+        }
+        .login-btn:hover, .register-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(217, 30, 91, 0.2); }
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(217, 30, 91, 0.7), rgba(217, 30, 91, 0.7)), 
+                        url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2069&auto=format&fit=crop') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 90px;
+        }
+        .hero h1 { font-size: 3.2rem; font-weight: 800; margin-bottom: 10px; }
+        .faq-container { padding: 80px 5%; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--primary-pink); }
+        .section-header h2 span { color: var(--text-dark); }
+        .faq-item { background: white; border-radius: 15px; margin-bottom: 20px; box-shadow: var(--shadow); }
+        .faq-question { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question h3 { color: var(--primary-pink); font-size: 1.2rem; }
+        .faq-answer { padding: 0 20px 20px; display: none; color: #666; }
+
+        /* FAQ Hero Section */
+        .faq-hero {
+            margin-top: 80px;
+            padding: 80px 20px;
+            background: linear-gradient(rgba(217, 30, 91, 0.7), rgba(217, 30, 91, 0.7)), 
+                        url('https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=2069&auto=format&fit=crop') no-repeat center center/cover;
+            text-align: center;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        /* FAQ Content */
+        .container {
+            max-width: 1000px;
+            margin: -40px auto 60px;
+            padding: 0 20px;
+        }
+
+        /* يجعل الأسئلة تظهر تحت بعضها في عمود واحد */
+.faq-grid {
+    display: flex;
+    flex-direction: column; /* الترتيب الرأسي */
+    gap: 20px; /* المسافة بين كل سؤال والثاني */
+    max-width: 800px; /* عرض مناسب لسهولة القراءة */
+    margin: 0 auto; /* توسيط القائمة في منتصف الصفحة */
+}
+
+/* تعديل بسيط لشكل السؤال ليصبح مريحاً للعين */
+.faq-item {
+    background: white;
+    padding: 0;
+    border-radius: 15px; /* حواف أنعم */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid #fce4ec;
+    transition: 0.3s ease;
+    width: 100%; /* يأخذ العرض المتاح بالكامل */
+}
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question h3 {
+            color: var(--primary-pink);
+            font-size: 1.1rem;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-question i {
+            font-size: 1.2rem;
+            color: var(--primary-pink);
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            color: #666;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+ 
+
+.social-icon:hover {
+    background: #be185d;  /* درجة أغمق عند الوقوف بالماوس */
+    transform: translateY(-3px); /* حركة بسيطة للأعلى */
+    box-shadow: 0 5px 15px rgba(217, 30, 91, 0.3);
+}
+/* تنسيق الصندوق الكبير وتوسيط كل ما بداخله */
+.faq-social-callout {
+    margin-top: 60px;
+    text-align: center; /* يضمن توسيط النصوص */
+    background: rgba(217, 30, 91, 0.08); 
+    padding: 40px;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* يضمن توسيط الـ Containers في المنتصف تماماً */
+}
+
+/* تنسيق كلمة Follow Us */
+.footer-social-title {
+    color:#D91E5B; 
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+/* تنسيق حاوية الأيقونات */
+.social-links-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* شكل الأيقونات الدائري */
+.social-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #D91E5B;
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 20px;
+}
+
+.social-icon:hover {
+    background-color: #be185d;
+    transform: scale(1.1);
+}   
+ 
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo-area">
+        <img src="logo.png" alt="Rotaract Logo">
+    </a>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="projects & Events.html">Projects</a></li>
+        <li><a href="Events.html">Events</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="faq.html" class="active">FAQ</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="signin.html" class="login-btn">LOGIN</a></li>
+        <li><a href="signup.html" class="register-btn">REGISTER</a></li>
+    </ul>
+</nav>
+    <section class="faq-hero">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Find answers to common questions about our club.</p>
+    </section>
+
+    <main class="container">
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h3>How can I join Rotaract?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>You can join by clicking the "REGISTER" button at the top and filling out the form. Our membership team will contact you for an interview.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h3>Is there an age limit?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, Rotaract is designed for young leaders aged 18 to 30 who want to make a difference in their community.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h3>What are the main activities?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We focus on 4 avenues: Community Service, International Service, Vocational Service (career growth), and Club Service (bonding).</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h3>Is it a job?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Rotaract is a 100% voluntary non-profit organization. We work for the passion of helping others and developing our leadership skills.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h3>Do you provide certificates?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Active members participate in our projects and receive certificates that boost their CV and prove their community impact.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h3>Can I suggest ideas?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! We encourage all members to pitch new ideas that serve the community, and we help bring them to life.</p>
+                </div>
+            </div>
+        </div>
+
+      <div class="faq-social-callout">
+    <p>Got more questions? We're just a message away!</p>
+    <div class="footer-social-title">Follow Us</div>
+    <div class="social-links-container">
+        <a href="https://www.facebook.com/profile.php?id=61585585168689" class="social-icon" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/rac_renaissancelumina/" class="social-icon" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+</div>
+    </main>
+
+<script>
+function toggleAnswer(element) {
+    const answer = element.nextElementSibling;
+    const icon = element.querySelector('i');
+    if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+    } else {
+        answer.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+    }
+}
+</script>
+<script src="auth-ui.js"></script>
+
+</body>
+</html>

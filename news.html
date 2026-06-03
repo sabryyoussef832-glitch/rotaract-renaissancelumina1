@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina News | Latest Updates</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root { 
+            --primary-pink: #D91E5B;
+            --soft-pink: #FFF0F5;
+            --text-dark: #2d3436;
+            --bg-white: #ffffff;
+            --nav-height: 90px;
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #fdfdfd; color: var(--text-dark); padding-top: var(--nav-height); }
+
+        /* --- Navigation --- */
+        nav {
+            background-color: var(--bg-white);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 8% 0 0.5%; position: fixed; width: 100%; top: 0; z-index: 5000;
+            height: var(--nav-height); box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--soft-pink);
+        }
+        .logo-area img { width: 280px; height: 90px; object-fit: cover; border-radius: 18px; }
+        nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
+        nav ul li a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 14px; }
+        .login-btn { background: var(--primary-pink); color: white !important; padding: 8px 22px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 11px; text-transform: uppercase; }
+        .register-btn { border: 2px solid var(--primary-pink); color: var(--primary-pink) !important; padding: 8px 22px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 11px; text-transform: uppercase; }
+
+        /* --- Global News Grid --- */
+        .news-grid { 
+            max-width: 1200px; 
+            margin: 40px auto 80px auto; 
+            padding: 0 20px;
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); /* 3 كروت في الصف الواحد */
+            gap: 30px; 
+        }
+
+        /* --- المظهر الموحد (Beach Cleanup Style) --- */
+        .universal-card {
+            background: var(--bg-white);
+            border-radius: 30px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            height: 520px; /* الارتفاع الثابت لضمان التساوي */
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .universal-card:hover { transform: translateY(-10px); border-color: var(--primary-pink); }
+        
+        .card-thumb { height: 220px; min-height: 220px; overflow: hidden; }
+        .card-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .card-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-info h3 { color: var(--primary-pink); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700; }
+        .card-info p { 
+            font-size: 0.9rem; color: #666; margin-bottom: 15px;
+            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; 
+            line-height: 1.6;
+        }
+        .cta-btn-full { 
+            background: var(--primary-pink); color: white; border: none; padding: 12px; 
+            border-radius: 15px; font-weight: 700; cursor: pointer; margin-top: auto; width: 100%;
+            transition: 0.3s;
+        }
+        .cta-btn-full:hover { background: #b0184a; }
+
+        .page-header { text-align: center; margin: 40px 0; }
+        .page-header h1 { font-size: 3rem; font-weight: 900; color: var(--primary-pink); }
+
+        .tag { background: var(--soft-pink); color: var(--primary-pink); padding: 4px 12px; border-radius: 50px; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; width: fit-content; margin-bottom: 10px; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .news-grid { grid-template-columns: 1fr; }
+            .universal-card { height: auto; }
+        }
+     
+        
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo-area">
+        <img src="logo.png" alt="Rotaract Logo">
+    </a>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="projects & Events.html" class="active">Projects & Events</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="signin.html" class="login-btn">LOGIN</a></li>
+        <li><a href="signup.html" class="register-btn">REGISTER</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <h1>Latest <span>News</span></h1>
+</div>
+
+<div class="news-grid">
+    <div class="universal-card" onclick="openNews(0)">
+        <div class="card-thumb"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800"></div>
+        <div class="card-info">
+            <span class="tag">Digital Education</span>
+            <h3>Empowering Alex Youth</h3>
+            <p>Our new tech centers are now open in Sidi Bishr, providing free coding workshops for 500+ students this summer.</p>
+            <button class="cta-btn-full">Read More</button>
+        </div>
+    </div>
+
+    <div class="universal-card" onclick="openNews(1)">
+        <div class="card-thumb"><img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=800"></div>
+        <div class="card-info">
+            <span class="tag">Partnership</span>
+            <h3>Bibliotheca Alexandrina Deal</h3>
+            <p>New summits for young innovators starting next month in collaboration with the library.</p>
+            <button class="cta-btn-full">Read More</button>
+        </div>
+    </div>
+
+    <div class="universal-card" onclick="openNews(2)">
+        <div class="card-thumb"><img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800"></div>
+        <div class="card-info">
+            <span class="tag">Health</span>
+            <h3>Wellness Marathon 2026</h3>
+            <p>A record 1,000 runners joined our Corniche run to promote physical health.</p>
+            <button class="cta-btn-full">Read More</button>
+        </div>
+    </div>
+
+    <div class="universal-card" onclick="openNews(3)">
+        <div class="card-thumb"><img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600"></div>
+        <div class="card-info">
+            <span class="tag">Green</span>
+            <h3>Beach Cleanup Action</h3>
+            <p>200kg of plastic waste removed from Alex shores by our dedicated volunteers in Sidi Bishr.</p>
+            <button class="cta-btn-full">Read More</button>
+        </div>
+    </div>
+
+    <div class="universal-card" onclick="openNews(4)">
+        <div class="card-thumb"><img src="https://plus.unsplash.com/premium_photo-1673953509975-576678fa6710?w=800"></div>
+        <div class="card-info">
+            <span class="tag">Medical</span>
+            <h3>Mobile Health Convoy</h3>
+            <p>Free medical checkups, medicines, and eye tests for 300+ rural residents in Alexandria outskirts.</p>
+            <button class="cta-btn-full">Read More</button>
+        </div>
+    </div>
+
+    <div class="universal-card" onclick="openNews(5)">
+        <div class="card-thumb">
+            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600">
+        </div>
+        <div class="card-info">
+            <span class="tag">Career</span>
+            <h3>Career Mentoring Hub</h3>
+            <p>100 graduates trained for the banking sector focusing on digital transformation and communications.</p>
+            <button class="cta-btn-full">Read More</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // تأكدي أن كل كارت في الـ HTML يأخذ الرقم الصحيح بالترتيب من 0 إلى 5
+    const newsData = [
+        { 
+            title: "Empowering Alex Youth", 
+            tag: "Digital Education", 
+            content: "Launched five new tech centers across Alexandria for free coding workshops in areas like Sidi Bishr to empower students with 21st-century skills.", 
+            img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800" 
+        },
+        { 
+            title: "Bibliotheca Alexandrina Deal", 
+            tag: "Partnership", 
+            content: "A strategic protocol has been signed to host 'Tech Summits' every month, fostering innovation among Alexandria's bright minds.", 
+            img: "https://images.unsplash.com/photo-1568667256549-094345857637?w=800" 
+        },
+        { 
+            title: "Wellness Marathon 2026", 
+            tag: "Health", 
+            content: "Over 1,000 citizens participated in our annual marathon on the Corniche to promote physical health and community spirit.", 
+            img: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800" 
+        },
+        { 
+            title: "Beach Cleanup Action", 
+            tag: "Green", 
+            content: "Our volunteers collected over 200kg of plastic waste from Alexandria's shores, contributing to a cleaner and greener environment.", 
+            img: "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800" 
+        },
+        { 
+            title: "Mobile Health Convoy", 
+            tag: "Medical", 
+            content: "Providing free consultations, eye tests, and essential medicines for more than 300 residents in underserved rural areas.", 
+            img: "https://plus.unsplash.com/premium_photo-1673953509975-576678fa6710?w=800" 
+        },
+        { 
+            title: "Career Mentoring Hub", 
+            tag: "Career", 
+            content: "Focused training for graduates to excel in the banking and finance sectors, including digital transformation and literacy workshops.", 
+            img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800" 
+        }
+    ];
+
+    function openNews(index) {
+        const news = newsData[index];
+        if(!news) {
+            console.error("News data not found for index:", index);
+            return;
+        }
+        Swal.fire({
+            title: `<span style="color:#D91E5B; font-weight:800; font-family:'Poppins';">${news.title}</span>`,
+            html: `
+                <div style="text-align: left; font-family:'Poppins';">
+                    <img src="${news.img}" style="width:100%; border-radius:20px; margin-bottom:15px; height:200px; object-fit:cover;">
+                    <p style="line-height:1.6; color:#444;">${news.content}</p>
+                </div>`,
+            confirmButtonColor: '#D91E5B',
+            confirmButtonText: 'Close'
+        });
+    }
+</script>
+
+<script src="auth-ui.js"></script>
+</body>
+</html>
